@@ -12,7 +12,6 @@ class ApiController extends Controller
      */
     public function index()
     {
-        //
         dump('this is index');
         return ['name' => 'sufiyan'];
     }
@@ -30,13 +29,14 @@ class ApiController extends Controller
      */
     public function store(Request $request)
     {
-        dump('this is store');
-        $user = new User();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = $request->input('password');
-        $user->save();
-        return response()->json($user);
+        // $user = new User();
+        // $user->name = $request->input('name');
+        // $user->email = $request->input('email');
+        // $user->password = $request->input('password');
+        // $user->save();
+        $user = User::create($request->all());
+        dump($user);
+        return response()->json($user, 201);
     }
 
     /**
@@ -44,7 +44,8 @@ class ApiController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::find($id);
+        return response()->json($user);
     }
 
     /**
@@ -60,7 +61,9 @@ class ApiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::find($id);
+        $user->update($request->all());
+        return response()->json($user);
     }
 
     /**
@@ -68,6 +71,8 @@ class ApiController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::find($id);
+        $user->destroy($id);
+        return response()->json(null, 204);
     }
 }
